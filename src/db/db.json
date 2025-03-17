@@ -1,16 +1,11 @@
 {
   "data": [
     {
-      "id": "1",
-      "name": "Abdullohjon",
-      "surname": "Amrulloev",
-      "status": "false"
-    },
-    {
       "id": "2",
-      "name": "Iskandar",
+      "name": "Iskandarjon",
       "surname": "Ibrohimov",
-      "satus": "true"
+      "satus": "true",
+      "status": true
     },
     {
       "id": "3",

@@ -68,30 +68,41 @@ function handleCloseInfo(){
 };
 
 //DELETE
- async function deleteUser (idx:string){
+async function deleteUser(idx: string) {
   try {
-    console.log(idx);
-    
-     const {data} = await axios.delete<Todo[]>(`${API}/${idx}`)
-     setData(data);
-     getData();
+    await axios.delete(`${API}/${idx}`);
+    setData(prevData => prevData.filter(user => user.id !== idx));
   } catch (error) {
-    setError("Ошибка загрузки данных");
+    setError("Ошибка удаления данных");
     console.error(error);
   }
 }
 
+
 //EDIT
-async function editUser (user:{id:string,name:string,surname:string,status:string},id:string){
+async function editUser(user: Todo, id: string) {
   try {
-       const {data} = await axios.put(`${API}/${id}`,user)
-       setData(data)
-       getData()
+    await axios.put(`${API}/${id}`, user);
+    setData(prevData =>
+      prevData.map(u => (u.id === id ? { ...u, ...user } : u))
+    );
   } catch (error) {
-    setError("Ошибка загрузки данных");
+    setError("Ошибка обновления данных");
     console.error(error);
   }
 }
+
+//COMPLETE
+async function completed(user:Todo,id:string){
+  try {
+    const {data}= await axios.put(`${API}/${id}`,{...user,status:!user.status})
+    setData(prevData => [...prevData, data]);
+  } catch (error) {
+    setError("Ошибка обновления данных");
+    console.error(error);
+  }
+}
+
 
 //ADD
 const [newUser,setNewUser] = useState({
@@ -101,16 +112,16 @@ const [newUser,setNewUser] = useState({
   status:"false"
 })
 
-async function addNew (user:{id:string,name:string,surname:string,status:string}){
+async function addNew(user: Todo) {
   try {
-    const {data}= await axios.post(API,user)
-    setData(data)
-    getData()
+    const { data } = await axios.post(API, user);
+    setData(prevData => [...prevData, data]);
   } catch (error) {
-    setError("Ошибка загрузки данных");
+    setError("Ошибка добавления данных");
     console.error(error);
   }
 }
+
 
 useEffect (()=>{
   getData();
@@ -139,7 +150,7 @@ if (error) return <p>{error}</p>;
     <TableRow key={user.id}>
     <TableCell className="font-medium">{user.name}</TableCell>
     <TableCell className="font-medium">{user.surname}</TableCell>
-    <TableCell>{user.status?"Active":"inactive"}</TableCell>
+    <TableCell><Button onClick={()=>completed(user,user.id)} variant={'secondary'}>{user.status?"Active":"Inactive"}</Button></TableCell>
     <TableCell>
       <div className="flex justify-center">
         <Button onClick={()=>deleteUser(user.id)} className="bg-red-500 hover:bg-amber-400">Detele</Button>
