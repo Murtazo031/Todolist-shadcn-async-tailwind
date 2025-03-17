@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "name": "Abdullohjon",
+      "surname": "Amrulloev",
+      "status": "false"
+    },
+    {
+      "id": "2",
+      "name": "Iskandar",
+      "surname": "Ibrohimov",
+      "satus": "true"
+    },
+    {
+      "id": "3",
+      "name": "Musso",
+      "surname": "Horunov",
+      "status": "false"
+    },
+    {
+      "id": "1742190151610",
+      "name": "Shadcn",
+      "surname": "Isperfect",
+      "status": "false"
+    }
+  ]
+}
